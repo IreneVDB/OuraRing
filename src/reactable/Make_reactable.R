@@ -1,8 +1,10 @@
 # Make an interactive table for the Scores:
 make.reactable.trend <- function(df, name = "Value", groupBy = "Category", title,
                                  tracker, hue = 0.63,
-                                 pagination = FALSE, highlight = TRUE, striped = FALSE, bordered = FALSE,
+                                 pagination = FALSE, highlight = TRUE, 
+                                 striped = FALSE, bordered = FALSE,
                                  borderless = TRUE, outlined  = TRUE){
+  
   col_dark <- hsv(h = hue, s = 0.6, v = 0.6)
   col_mid <- hsv(h = hue, s = 0.48, v = 0.97)
   col_low <- hsv(h = hue, s = 0.1, v = 1)
@@ -88,9 +90,13 @@ make.reactable.trend <- function(df, name = "Value", groupBy = "Category", title
     columns[["Category"]] <- colDef(minWidth = 136, maxWidth = 140)
   }
   
-  table <- reactable(df_tbl, pagination = pagination, highlight = highlight,
-                     striped = striped, bordered = bordered,
-                     borderless = borderless, outlined = outlined,
+  table <- reactable(df_tbl, 
+                     pagination = pagination, 
+                     highlight = highlight,
+                     striped = striped, 
+                     bordered = bordered,
+                     borderless = borderless, 
+                     outlined = outlined,
                      groupBy = groupBy, 
                      fullWidth = TRUE,
                      defaultColDef = colDef(align = "left"),
@@ -103,7 +109,11 @@ make.reactable.trend <- function(df, name = "Value", groupBy = "Category", title
                        cellPadding = "8px 12px",
                        style = list(fontFamily = "Catamaran", align = "right"),
                        headerStyle =  list(backgroundColor = col_dark, color="#fff")
-                     )) 
+                     )) %>%
+    add_title(title = title) %>%
+    add_subtitle(subtitle = paste("Measured with", Tracker))
   
   return(table)
-  }
+}
+
+
