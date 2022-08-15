@@ -23,7 +23,8 @@ get.oura.api <- function(startdate, token, username, password, timezone ){
       mutate(across(ends_with("summary_date"), as_date),
              across(ends_with(c("_start", "_end")), as_datetime, 
                     tz = timezone)) %>%
-      left_join(all_dates, ., by = c("Date" = colnames(df)[1]))
+      left_join(all_dates, ., by = c("Date" = colnames(df)[1])) %>%
+      filter(Date < Sys.Date()) # remove the last (incomplete day)
   }
   
   data_types <- c("sleep", "activity", "readiness")
@@ -45,3 +46,5 @@ oura <- get.oura.api(startdate = "2020-01-29",
 
 save(oura, file = "data/oura.RData")
 pin(oura, "oura")
+
+
