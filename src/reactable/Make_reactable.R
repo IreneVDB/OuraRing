@@ -1,6 +1,6 @@
 # Make an interactive table for the Scores:
 make.reactable.trend <- function(df, name = "Value", groupBy = "Category", title,
-                                 tracker, hue = 0.63,
+                                 hue = 0.63,
                                  pagination = FALSE, highlight = TRUE, 
                                  striped = FALSE, bordered = FALSE,
                                  borderless = TRUE, outlined  = TRUE){
@@ -17,9 +17,9 @@ make.reactable.trend <- function(df, name = "Value", groupBy = "Category", title
                                  TRUE ~ col_mid)) %>%
     mutate(mean7 = mean(rev(Last14)[1:7], na.rm = TRUE),
            sd7 = sd(rev(Last14)[1:7], na.rm = TRUE),
-           icon = case_when(LastVal < mean7 - sd7 ~ "arrow-alt-circle-down",
-                            LastVal <= mean7 + sd7 ~ "arrows-alt-h",
-                            TRUE ~ "arrow-alt-circle-up"),
+           icon = case_when(LastVal < mean7 - sd7 ~ "circle-down",
+                            LastVal <= mean7 + sd7 ~ "arrows-left-right",
+                            TRUE ~ "circle-up"),
            icon_color = case_when(LastVal < mean7 - sd7 ~ contrast,
                                   LastVal <= mean7 + sd7 ~ col_dark,
                                   TRUE ~ col_mid)) %>%
@@ -41,7 +41,10 @@ make.reactable.trend <- function(df, name = "Value", groupBy = "Category", title
                      header = with_tooltip("Last value", paste0(
                        "Last update: ", df$lastdate[1])),
                      aggregate = JS("function(values) {return values[0] + '%'}"),
-                     cell = data_bars(df_tbl, fill_color_ref = "color_pal", 
+                     cell = data_bars(df_tbl, 
+                                      text_position = "outside-end",
+                                      fill_color_ref = "color_pal", 
+                                      background = "#ffffff",
                                       text_color =  col_dark, 
                                       max_value = 120, bar_height = 20, 
                                       number_fmt = scales::label_percent(scale=1)),
@@ -110,8 +113,16 @@ make.reactable.trend <- function(df, name = "Value", groupBy = "Category", title
                        style = list(fontFamily = "Catamaran", align = "right"),
                        headerStyle =  list(backgroundColor = col_dark, color="#fff")
                      )) %>%
-    add_title(title = title) %>%
-    add_subtitle(subtitle = paste("Measured with", Tracker))
+    add_title(title = title,
+              font_size = 36,
+              font_color = col_dark) %>%
+    add_subtitle(subtitle = paste0("Measured with Oura Ring between ",
+                                  df$firstdate[1], " and ", df$lastdate[1],
+                                  " (", length(Scores$All[[1]]), " days)"),
+                 font_size = 20,
+                 font_weight = "normal",
+                 font_color = col_dark,
+                 margin = margin(t=5, r=0, b=5, l=0))
   
   return(table)
 }

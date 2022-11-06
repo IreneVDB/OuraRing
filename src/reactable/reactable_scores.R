@@ -29,8 +29,7 @@ Scores <- bind_rows(map(oura, function(df){
 }), .id = "Category")
 
 score_tbl <- make.reactable.trend(Scores, name = "Score",
-                     title = "Sleep, activity and readiness scores", 
-                     tracker = "Oura Ring")
+                     title = "Sleep, activity and readiness scores")
 
 # save without logo:
 # save_reactable(score_tbl, "src/reactable/output/OuraRing_scores.html")
