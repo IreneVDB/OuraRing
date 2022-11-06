@@ -39,7 +39,7 @@ Make.trend <- function(df, column, hue, ymax, ymin, ylab,
              fontSize = 16),
            axisLine = list(show = FALSE)) %>%
     e_bar(value, bind = label) %>%
-    e_add("itemStyle", color) %>%
+    e_add_nested("itemStyle", color) %>%
     e_line(rollmean, 
            symbol = "none",
            lineStyle = list(
@@ -76,13 +76,13 @@ Make.trend <- function(df, column, hue, ymax, ymin, ylab,
                               color = hsv(hue, 1, 0.95),
                               fontSize = 14),
                  title = "7-day rolling mean") %>%
-    e_grid(left = left_mar, top = top_mar, right = 50,bottom = 150,
+    e_grid(left = left_mar, top = top_mar, right = 50, bottom = 170,
             width = plot_width, height = plot_height) %>%
     e_text_style(fontFamily = "Catamaran") %>%
     e_legend(show = FALSE) %>%
     e_datazoom(x_index = c(0,1),
                height = 40,
-               top = plot_height + top_mar + 20,
+               top = plot_height + top_mar + 45,
                dataBackground = list(
                  lineStyle = list(
                    color = hsv(h=hue, s = 0.8, v = 0.5)),
@@ -96,8 +96,8 @@ Make.trend <- function(df, column, hue, ymax, ymin, ylab,
                  moveHandleStyle = list(color = hsv(h=hue, s = 0.8, v = 0.9)))) %>%
       e_title(text = title,
               subtext = paste0(subtitle, " (", nrow(data), " days)"),
-              textStyle = list(fontSize = 36, height = "50%"),
-              subtextStyle = list(fontSize = 24)) %>%
+              textStyle = list(fontSize = 28, height = "50%"),
+              subtextStyle = list(fontSize = 18)) %>%
     e_tooltip(trigger = 'axis',
               formatter = htmlwidgets::JS(
                 "function(params){
@@ -106,21 +106,3 @@ Make.trend <- function(df, column, hue, ymax, ymin, ylab,
                 '7-day rolling mean: ' + Math.round(params[1].value[1])) 
 }"))
 }
-
-# Make.trend(oura[["Sleep"]], column = sleep.rmssd, ylab = "HRV (msec)",
-#                 title = "Average Heart Rate Variability (rmssd) during sleep",
-#                 subtitle = "Measured with the Oura Ring",
-#                 hue = 0.55, ymax = 180, ymin = 60, top_mar = 150,
-#            plot_width = 800, plot_height = 600) %>%
-#   saveWidget(., selfcontained = TRUE,
-#              file = file.path("output", "echarts_oura", "e_line_HRV_800.html"),
-#              title = "HRVTrend")  
-
-# Make.trend(oura[["Activity"]], column = activity.steps, ylab = "Steps (xx)",
-#            title = "Daily Step Count",
-#            subtitle = "Measured with the Oura Ring",
-#            hue = 0.65, ymax = 40000, ymin = 0, top_mar = 150,
-#            plot_width = 960, plot_height = 600) %>%
-#   saveWidget(., selfcontained = TRUE,
-#              file = file.path("output", "echarts_oura", "e_line_Steps.html"),
-#              title = "StepsTrend")

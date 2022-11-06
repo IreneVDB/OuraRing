@@ -80,12 +80,8 @@ make.stacked.bar.sleep <- function(){
                 return('<strong>' + 'Date: ' + '</strong>' + params[0].value[0] + '<br>' + 
                 '<strong>' + 'Total sleep: ' + '</strong>' + params[0].name + '<br>' + 
                 '<br>' + tp.join('<br/>'))
-}")) %>%
-  saveWidget(selfcontained = TRUE, 
-             file=file.path("output", "echarts_oura", "e_bar_stacked_sleep.html"),
-             title = "Total hours of sleep")
+}")) 
 }
-make.stacked.bar.sleep()
 
 # Same for Activity data ----
 make.stacked.bar.activity <- function(){
@@ -113,9 +109,5 @@ make.stacked.bar.activity <- function(){
               return('<strong>' + 'Date: ' + '</strong>' + params[0].value[0] + '<br>' + 
               '<strong>' + 'Total Activity: ' + '</strong>' + total.toFixed(2) + ' h' + '<br>' + 
               '<br>' + tp.join('<br/>'))
-              }")) %>%
-    saveWidget(selfcontained = TRUE, 
-               file=file.path("output", "echarts_oura", "e_bar_stacked_activity.html"),
-               title = "Total Activity per Day")
+              }")) 
 }
-make.stacked.bar.activity()

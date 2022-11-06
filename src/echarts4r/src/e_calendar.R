@@ -5,25 +5,35 @@ make.hm.cal <- function(df, column, min = 0, max, hue, title, subtitle){
     group_by(Year) %>%
     e_charts(Date) %>%
     e_calendar(range = "2020",
-               top = "15%",
-               height = "30%",
+               top = "20%",
+               width="100%",
+               height = "20%",
                itemStyle = list(borderColor = 'fff'),
                dayLabel = list(color = "#808080"),
                monthLabel = list(color =  "#808080",
                                  fontSize = 16)) %>%
     e_calendar(range = "2021", 
-               top = "55%",
-               height = "30%",
+               top = "45%",
+               height = "20%",
+               width="100%",
+               itemStyle = list(borderColor = 'fff'),
+               dayLabel = list(color = "#808080"),
+               monthLabel = list(color =  "#808080",
+                                 fontSize = 16)) %>%
+    e_calendar(range = "2022", 
+               top = "70%",
+               width="100%",
+               height = "20%",
                itemStyle = list(borderColor = 'fff'),
                dayLabel = list(color = "#808080"),
                monthLabel = list(color =  "#808080",
                                  fontSize = 16)) %>%
     e_visual_map(min = min, 
                  max = max, 
-                 itemWidth = 25,
+                 itemWidth = 20,
                  itemHeight = 240,
                  left = "center",
-                 bottom = "5%",
+                 bottom = "0%",
                  orient = "horizontal",
                  inRange = list(
                    color = c(hsv(hue, 0.1, 1), 
@@ -31,33 +41,16 @@ make.hm.cal <- function(df, column, min = 0, max, hue, title, subtitle){
                              hsv(hue, 1, 0.5)))) %>%
     e_title(text = title,
             subtext = paste0(subtitle, " (", nrow(df), " days)"),
-            textStyle = list(fontSize = 36, height = "50%"),
-            subtextStyle = list(fontSize = 24)) %>%
+            textStyle = list(fontSize = 28, height = "50%"),
+            subtextStyle = list(fontSize = 18)) %>%
     e_tooltip(trigger = "item",
               formatter = htmlwidgets::JS(
                 "function(params){
                 return(params.value[0] + ':' + '<br>' + '<strong>' + 
-                params.value[1] + '</strong>' +  ' steps')
-}"
-            )) %>%
-    e_text_style(fontFamily = "Catamaran") 
+                params.value[1] + '</strong>')
+                }")) %>%
+    e_text_style(fontFamily = "Catamaran") %>%
+    e_grid(width="80%")
   
   
 }
-
-make.hm.cal(oura[["Activity"]], "activity.steps", hue = 0.65, max = 25000,
-            title = "Daily Steps over the Years",
-            subtitle = "Measured with Oura Ring") %>%
-  e_heatmap(activity.steps, coord_system = "calendar") %>%
-  saveWidget(., selfcontained = TRUE,
-             file = file.path("output", "echarts_oura", "e_calendar_steps.html"),
-             title = "StepsCalendar")
-  
-make.hm.cal(oura[["Sleep"]], "sleep.rmssd", hue = 0.55, 
-            min = 75, max = 125,
-            title = "Mean HRV over the Years",
-            subtitle = "Measured with Oura Ring") %>%
-  e_heatmap(sleep.rmssd, coord_system = "calendar") %>%
-  saveWidget(., selfcontained = TRUE,
-             file = file.path("output", "echarts_oura", "e_calendar_HRV.html"),
-             title = "HRVCalendar")

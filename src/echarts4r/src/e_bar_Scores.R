@@ -33,7 +33,7 @@ make.e_bar.scores <-function(category, hue, barwidth = 40){
     e_axis(axis = "y", 
            name = paste(category, "Score"),
            nameTextStyle = list(
-             align = "right",
+             align = "center",
              fontWeight = "bold",
              fontSize = 16),
            nameGap = mar_t - 50,
@@ -43,12 +43,12 @@ make.e_bar.scores <-function(category, hue, barwidth = 40){
            name = "%",
            nameTextStyle = list(
              fontWeight = "bold",
-             fontSize = 16,
+             fontSize = 12,
              align = "left",
              verticalAlign = "top"),
-           nameGap = 20,
+           nameGap = -120,
            splitLine = list(show = FALSE)) %>%
-    e_grid(left = 120, top = mar_t, bottom = mar_b) %>%
+    e_grid(left = 100, top = mar_t, bottom = mar_b) %>%
     e_legend(show= FALSE) %>%
     e_tooltip(trigger = 'item',
             formatter = htmlwidgets::JS(
@@ -57,13 +57,7 @@ make.e_bar.scores <-function(category, hue, barwidth = 40){
                 return('<strong>' + 'Date: ' + '</strong>' + date[0] + '<br>' +
                       '<strong>' + params.value[1] + ': ' + '</strong>' + params.value[0] + '%')
               }")) %>%
-    e_text_style(fontFamily = "Catamaran")%>%
-    saveWidget(., selfcontained = TRUE,
-               file = file.path("output", "echarts_oura", paste0("e_bar_", category, "_Scores.html")),
-               title = paste0(category, "Score"))
+    e_text_style(fontFamily = "Catamaran")
   
 }
 
-make.e_bar.scores("Sleep", 0.55) 
-make.e_bar.scores("Activity", 0.65)
-make.e_bar.scores("Readiness", 0.75)
