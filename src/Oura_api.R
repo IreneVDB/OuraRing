@@ -45,6 +45,6 @@ oura <- get.oura.api(startdate = "2020-01-29",
                      timezone = "Europe/Amsterdam")
 
 save(oura, file = "data/oura.RData")
-pin(oura, "oura")
 
+pin(oura, "oura")
 
